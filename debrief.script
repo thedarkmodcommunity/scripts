@@ -1,0 +1,22 @@
+// Triggers the end of the game and plays a debrief video
+// this script was used instead of https://wiki.thedarkmod.com/index.php?title=Setting_up_Campaigns#De-Briefing_Videos due to inconsistent results
+// See here for more about how to set up the GUI entities for videos: https://wiki.thedarkmod.com/index.php?title=Full-Screen_Video_Cutscenes
+
+void triggerEnd()
+{   
+    // Check the state of our mandatory objectives
+    float objectiveWilliams = $player1.getObjectiveState(1); // Objective 1
+    float objectiveJacobs = $player1.getObjectiveState(2);   // Objective 2
+
+    // If they are both '1' (complete), then proceed
+    if ((objectiveWilliams == 1) && (objectiveJacobs == 1))
+    {   
+        $player1.setOrigin($debrief_rug.getOrigin());   // teleport to 'theatre room' rug on the floor
+        sys.trigger($debrief_video);                    // start the debrief: 'atdm:gui_message' entity
+        sys.trigger($debrief_speaker);                  // debrief audio
+        sys.wait(57);                                   // video length in seconds
+        
+        // complete 'player exit' objective.  This must be the last remaining objective, completing it will end the game
+        $player1.setObjectiveState(8, 1);
+    }
+}
