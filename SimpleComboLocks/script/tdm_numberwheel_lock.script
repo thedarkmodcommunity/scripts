@@ -1,0 +1,79 @@
+// Modified from unattributed original script from "A New Job" - inspired by "Dishonored" this is a simplified combination lock which removes the gui handler and turns each dial automatically when it is frobbed
+
+#ifndef __TDM_NUMBERWHEEL_LOCK__
+#define __TDM_NUMBERWHEEL_LOCK__
+object numberwheel_lock
+{
+	void init();
+	void processStim(entity e1, entity e2);
+	float curComb;
+	float lockComb;
+	vector digits;
+};
+void numberwheel_lock::init()
+{
+	ResponseAdd(STIM_TRIGGER);
+	ResponseSetAction(STIM_TRIGGER,"processStim");
+	ResponseEnable(STIM_TRIGGER,1);
+	float i;
+	entity w;
+	for (i=0;i<3;i++)
+	{
+		w=getBindChild(i);
+		w.addTarget(self);		
+	}
+	lockComb=getFloatKey("combination");
+	curComb=0;
+	digits='0 0 0';
+}
+void numberwheel_lock::processStim(entity e1,entity e2)
+{
+	vector origin=e1.getOrigin();
+	numberwheel nw = e1;
+	float i;
+	entity t;
+	if (origin_x<0) //first wheel
+	{
+		digits_x=nw.getValue();
+	}
+	else if (origin_x>0) //third wheel
+	{
+		digits_z=nw.getValue();
+	}
+	else
+	{
+		digits_y=nw.getValue();
+	}
+	curComb=digits_x*100+digits_y*10+digits_z;
+	sys.println(curComb);
+	if (curComb == lockComb)
+	{
+		for (i=0;i<numTargets();i++)
+		{
+			t=getTarget(i);
+			if (t.IsLocked())
+			{
+				//sys.wait(0.1);
+				t.Unlock();
+//				t.Open();
+			}
+		}
+	}
+	else
+	{
+		for (i=0;i<numTargets();i++)
+		{
+			t=getTarget(i);
+			if (!t.IsLocked()) 
+			{
+				if (t.IsOpen())
+				{
+					t.Close();
+					sys.waitFor(t);
+				}
+				t.Lock();
+			}
+		}
+	}
+}
+#endif

@@ -1,0 +1,64 @@
+// Modified from unattributed original script from "A New Job" - inspired by "Dishonored" this is a simplified combination lock which removes the gui handler and turns each dial automatically when it is frobbed
+
+#ifndef __TDM_NUMBERWHEEL__
+#define __TDM_NUMBERWHEEL__
+//float hasBeenFrobbed;
+object numberwheel
+{
+	void init();
+	void processStim(entity e1,entity e2);
+	float getValue();
+	
+	float frobbed;
+	float overlayHandle;
+	float inventoryHandle;
+	float pos;
+};
+void numberwheel::init()
+{
+	ResponseAdd(STIM_FROB);
+	ResponseSetAction(STIM_FROB,"processStim");
+	ResponseEnable(STIM_FROB,1);
+	frobbed=0;
+	pos=0;
+}
+void numberwheel::processStim(entity e1,entity e2)
+{
+	if (!frobbed)
+	{
+		frobbed=1;
+		eachFrame
+		{
+			if (!frobbed || ($player1.getFrobbed() != self))
+			{
+				break;
+			}
+			if (isRotating()) 
+			{
+			continue;			
+			}
+			
+			{
+				rotateOnce('0 0 -36');
+				pos++;
+				if (pos>9) 
+				{
+					pos=0;
+				}
+			}
+
+//			{
+//				activateTargets(self);
+//				
+//			}
+		frobbed = 0;
+		activateTargets(self);
+		}
+	}
+	
+}
+float numberwheel::getValue()
+{
+	return pos;
+}
+#endif
