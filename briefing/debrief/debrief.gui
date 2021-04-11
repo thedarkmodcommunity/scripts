@@ -1,0 +1,15 @@
+windowDef Desktop
+{
+  rect 0 ,0 ,640 ,480 // Standard element to define nominal grid, e.g., for placing and sizing buttons
+  backcolor 1,1,1,0
+  matcolor 1, 1, 1, 1
+  
+  nocursor 1
+  
+  onActivate
+  {
+    resetTime 0;
+    set "background" "video/hits_debrief_video";
+    resetCinematics;
+  }
+}

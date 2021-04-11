@@ -1,0 +1,4 @@
+video/hits_debrief_video_sound
+{
+	sound/video/debrief_audio.ogg  // provide your own debrief video audio
+}
