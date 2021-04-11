@@ -1,0 +1,7 @@
+video/hits_debrief_video
+{
+	 qer_editorimage textures/editor/video
+	 {
+		  videoMap video/hits_outro.mp4     // provide your own debrief video
+	 }
+}
