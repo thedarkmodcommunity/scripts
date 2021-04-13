@@ -1,0 +1,17 @@
+void immobilize_player()
+{
+    // some unique string to identify the 'source' of the immobilization.
+    // Must use the same source to 'free' the player later
+
+    string source = "test_source";
+
+    // paralyze the player for 5 seconds
+    // IM_ALL defined in tdm_base01.pk4/script/tdm_defs.script, see there for other values (e.g. IM_ITEM_USE, etc)
+    // to use more than one, separate with '|' character, e.g. IM_ITEM_USE|IM_FROB
+    
+    $player1.setImmobilization(source, IM_ALL);
+    sys.wait(5);
+
+    // free the player
+    $player1.setImmobilization(source, 0);
+}
