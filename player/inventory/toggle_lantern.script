@@ -1,0 +1,14 @@
+void toggle_lantern()
+{
+    // use the scriptobject for the player lantern
+    // see tdm_base01.pk4/script/tdm_playertools.script
+
+    playertools_lantern lantern = $player_lantern;
+
+    // I only want to turn the lantern here off here, so check if it's on first
+    // skip check if just need want to toggle on/off
+
+    if (lantern.lanternLight) {
+        lantern.inventoryUse($player1, $null_entity, 1);
+    }
+}
