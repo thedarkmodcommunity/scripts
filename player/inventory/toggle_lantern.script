@@ -6,7 +6,7 @@ void toggle_lantern()
     playertools_lantern lantern = $player_lantern;
 
     // I only want to turn the lantern off here, so check if it's on first
-    // skip check if just need want to toggle on/off
+    // skip check if just want to toggle on/off
 
     if (lantern.lanternLight) {
         lantern.inventoryUse($player1, $null_entity, 1);
